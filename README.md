@@ -1,3 +1,17 @@
-# Репозиторий для домашних работ по языку Go
+## Gateway
 
-Добавлено: ветка homework_1 - Домашнее задание № 1 (Дедлайн 21.09.2026)
+Запуск:
+
+cd gateway
+go run .
+
+Эндпоинт:
+
+GET http://localhost:8080/ping
+
+## Ledger
+
+Запуск:
+
+cd ledger
+go run .
