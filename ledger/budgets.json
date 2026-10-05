@@ -1,0 +1,22 @@
+[
+  {
+    "Category": "Food",
+    "Limit": 5000,
+    "Period": "month"
+  },
+  {
+    "Category": "Transport",
+    "Limit": 2000,
+    "Period": "month"
+  },
+  {
+    "Category": "DailyRoutine",
+    "Limit": 30000,
+    "Period": "month"
+  },
+  {
+    "Category": "Education",
+    "Limit": 30000,
+    "Period": "month"
+  }
+]
