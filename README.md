@@ -64,3 +64,37 @@
 `curl -X POST http://localhost:8080/api/budgets \
   -H "Content-Type: application/json" \
   -d '{"category":"Food","limit":500}'`
+
+## ТЕСТЫ
+
+### Запуск тестов Ledger:
+
+`cd ledger`
+`go test ./...`
+
+### Запуск тестов Gateway:
+
+`cd gateway`
+`go test ./...`
+
+### Запуск с подробным выводом:
+
+`go test ./... -v`
+
+#### Покрытие Ledger:
+
+`cd ledger`
+`go test . -coverprofile=cover-ledger.out`
+`go tool cover -func=cover-ledger.out`
+
+#### Покрытие Gateway API:
+
+`cd gateway`
+`go test ./internal/api -coverprofile=cover-gateway.out`
+`go tool cover -func=cover-gateway.out`
+
+### Текущее покрытие:
+
+#### Ledger: 63.3%
+
+#### Gateway API: 78.3%

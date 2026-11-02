@@ -49,6 +49,11 @@ func (b Budget) Validate() error {
 	return nil
 }
 
+func Reset() {
+	transactions = nil
+	budgets = make(map[string]Budget)
+}
+
 type Validatable interface {
 	Validate() error
 }
