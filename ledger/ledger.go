@@ -1,12 +1,10 @@
-package main
+package ledger
 
 import (
-	"bufio"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"os"
 	"time"
 )
 
@@ -123,111 +121,12 @@ func CheckValid(v Validatable) error {
 	return v.Validate()
 }
 
-func main() {
-	fmt.Println("Ledger service started")
-
-	file, err := os.Open("budgets.json")
-	if err != nil {
-		fmt.Println("failed to open budgets file:", err)
-		return
-	}
-	defer file.Close()
-
-	reader := bufio.NewReader(file)
-	err = LoadBudgets(reader)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
+func ListBudgets() []Budget {
+	result := make([]Budget, 0, len(budgets))
 
 	for _, budget := range budgets {
-		fmt.Printf("%s | %.2f | %s\n",
-			budget.Category,
-			budget.Limit,
-			budget.Period,
-		)
+		result = append(result, budget)
 	}
 
-	tx1 := Transaction{
-		Amount:      1000,
-		Category:    "Food",
-		Description: "Покупка еды в Пятерочке",
-		Date:        time.Now(),
-	}
-
-	tx2 := Transaction{
-		Amount:      80,
-		Category:    "Transport",
-		Description: "Оплата поездки в автобусе",
-		Date:        time.Now(),
-	}
-
-	tx3 := Transaction{
-		Amount:      50000,
-		Category:    "Education",
-		Description: "Оплата семестра обучения",
-		Date:        time.Now(),
-	}
-
-	educationBudget := Budget{
-		Category: "Education",
-		Limit:    40000,
-	}
-
-	if err := SetBudget(educationBudget); err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	tx4 := Transaction{
-		Category:    "Food",
-		Description: "Покупка еды в Магните",
-		Date:        time.Now(),
-	}
-
-	err = AddTransaction(tx1)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	err = AddTransaction(tx2)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	err = AddTransaction(tx3)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	err = AddTransaction(tx4)
-	if err != nil {
-		fmt.Println("Error:", err)
-	}
-
-	result := ListTransactions()
-
-	for _, tx := range result {
-		fmt.Printf("%d | %.2f | %s | %s | %v\n",
-			tx.ID,
-			tx.Amount,
-			tx.Category,
-			tx.Description,
-			tx.Date.Format("2006-01-02"))
-	}
-
-	err = CheckValid(tx1)
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("Transaction is valid")
-	}
-
-	err = CheckValid(educationBudget)
-	if err != nil {
-		fmt.Println("Error:", err)
-	} else {
-		fmt.Println("Budget is valid")
-	}
-
+	return result
 }

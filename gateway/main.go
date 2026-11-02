@@ -2,16 +2,21 @@ package main
 
 import (
 	"fmt"
+	"gateway/internal/api"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/ping", pingHandler)
+	mux := http.NewServeMux()
 
-	if err := http.ListenAndServe(":8080", nil); err != nil {
+	handler := api.LoggingMiddleware(mux)
+
+	mux.HandleFunc("/ping", pingHandler)
+	mux.HandleFunc("/api/transactions", api.TransactionHandler)
+	mux.HandleFunc("/api/budgets", api.BudgetsHandler)
+	if err := http.ListenAndServe(":8080", handler); err != nil {
 		fmt.Println("Ошибка запуска сервера:", err)
 	}
-
 }
 
 func pingHandler(w http.ResponseWriter, r *http.Request) {
